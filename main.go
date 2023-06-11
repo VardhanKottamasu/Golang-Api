@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"math"
 	"net/http"
-	"strconv"
+	"strings"
 )
 
 const (
@@ -57,17 +56,14 @@ func main() {
 	op := struct {
 		Data Data `json:"data"`
 	}{}
-
+	// op := &Data{}
 	err = json.Unmarshal(data, &op)
 	if err != nil {
 		fmt.Println("Error unmarshaling JSON:", err)
 		return
 	}
-	
-	ans,err:=strconv.ParseFloat(op.Data.Amount,12)
-	roundedAmount:= math.Round(ans)
 
-	fmt.Println(op.Data.Base)
-	fmt.Println(op.Data.Currency)
-	fmt.Println(roundedAmount)
+	fmt.Println("Base currency is ",op.Data.Base)
+	fmt.Println("Selected Currency is",op.Data.Currency)
+	fmt.Println("Value of a BTC in the selected currency is",strings.Split(op.Data.Amount, ".")[0])
 }
